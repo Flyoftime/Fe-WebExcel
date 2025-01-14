@@ -1,14 +1,47 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Upload = () => {
-    const [file, setFile] = useState(null); 
-    const [uploading, setUploading] = useState(false); 
-    const [uploadStatus, setUploadStatus] = useState(""); 
+    const [file, setFile] = useState(null);
+    const [uploading, setUploading] = useState(false);
+    const [uploadStatus, setUploadStatus] = useState("");
+    const [isAuthorized, setIsAuthorized] = useState(false);
+
+    // Cek otorisasi pengguna
+    useEffect(() => {
+        const checkAuthorization = async () => {
+            try {
+                const token = localStorage.getItem("token"); // Ambil token dari localStorage
+                if (!token) {
+                    setIsAuthorized(false);
+                    return;
+                }
+
+                const response = await fetch("http://localhost:8000/api/user", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    setIsAuthorized(data.role_id === 2);
+                } else {
+                    setIsAuthorized(false);
+                }
+            } catch (error) {
+                console.error("Authorization check failed:", error);
+                setIsAuthorized(false);
+            }
+        };
+
+        checkAuthorization();
+    }, []);
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
-        setUploadStatus(""); 
+        setUploadStatus("");
     };
 
     const handleUpload = async (e) => {
@@ -19,14 +52,19 @@ const Upload = () => {
         }
 
         const formData = new FormData();
-        formData.append("file", file); 
+        formData.append("file", file);
 
         try {
             setUploading(true);
-            setUploadStatus(""); 
+            setUploadStatus("");
+            const token = localStorage.getItem("token");
+
             const response = await fetch("http://localhost:8000/api/product/upload", {
                 method: "POST",
                 body: formData,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             });
 
             if (response.ok) {
@@ -43,8 +81,19 @@ const Upload = () => {
         }
     };
 
+    if (!isAuthorized) {
+        return (
+            <div className="text-center font-sans p-8 bg-white">
+                <h1 className="text-2xl font-bold mb-2">Access Denied</h1>
+                <p className="text-gray-600 text-lg">
+                    You do not have the necessary permissions to upload files. Only sellers (role_id: 2) can upload.
+                </p>
+            </div>
+        );
+    }
+
     return (
-        <div className="text-center font-sans p-8">
+        <div className="text-center font-sans p-8 bg-white">
             <h1 className="text-2xl font-bold mb-2">Publish to the World</h1>
             <p className="text-gray-600 text-lg">
                 Presentations, research papers, legal documents, and more
@@ -81,8 +130,8 @@ const Upload = () => {
             {uploadStatus && (
                 <p
                     className={`mt-4 text-sm ${uploadStatus.startsWith("Error")
-                            ? "text-red-500"
-                            : "text-green-500"
+                        ? "text-red-500"
+                        : "text-green-500"
                         }`}
                 >
                     {uploadStatus}

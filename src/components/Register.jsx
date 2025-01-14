@@ -39,8 +39,8 @@ export default function Register() {
 
     return (
         <div>
-        <div className="flex justify-center items-center h-screen bg-base-200 bg-white">
-            <form className="bg-base-100 p-8 shadow-lg rounded-lg w-96" onSubmit={handleRegister}>
+        <div className="flex justify-center items-center h-screen  bg-white">
+            <form className="bg-base-100 bg-white p-8 shadow-lg rounded-lg w-96" onSubmit={handleRegister}>
                 <h2 className="text-2xl font-bold mb-4 text-base-content text-black">Register</h2>
                 {error && <p className="text-error">{error}</p>}
                 <div className="mb-4">
@@ -48,18 +48,18 @@ export default function Register() {
                     <input
                         type="text"
                         name="name"
-                        className="w-full border border-base-300 p-2 rounded bg-base-100 text-base-content text-black"
+                        className="w-full border border-base-300 p-2 rounded bg-white text-black"
                         value={formData.name}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-base-content text-black">Email</label>
+                    <label className="block  text-black">Email</label>
                     <input
                         type="email"
                         name="email"
-                        className="w-full border border-base-300 p-2 rounded bg-base-100 text-base-content text-black"
+                        className="w-full border border-base-300 p-2 rounded bg-white text-black"
                         value={formData.email}
                         onChange={handleChange}
                         required
@@ -70,7 +70,7 @@ export default function Register() {
                     <input
                         type="password"
                         name="password"
-                        className="w-full border border-base-300 p-2 rounded bg-base-100 text-base-content text-black"
+                        className="w-full border border-base-300 p-2 rounded bg-white text-black"
                         value={formData.password}
                         onChange={handleChange}
                         required
