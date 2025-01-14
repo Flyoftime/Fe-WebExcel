@@ -11,7 +11,7 @@ const Upload = () => {
     useEffect(() => {
         const checkAuthorization = async () => {
             try {
-                const token = localStorage.getItem("token"); // Ambil token dari localStorage
+                const token = localStorage.getItem("token"); 
                 if (!token) {
                     setIsAuthorized(false);
                     return;
@@ -59,7 +59,7 @@ const Upload = () => {
             setUploadStatus("");
             const token = localStorage.getItem("token");
 
-            const response = await fetch("http://localhost:8000/api/product/upload", {
+            const response = await fetch("http://localhost:8000/api/products/upload", {
                 method: "POST",
                 body: formData,
                 headers: {

@@ -1,23 +1,80 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 
 const YourProfile = () => {
     const [profile, setProfile] = useState({
-        fullName: "Mochamad Mirsab Anwar",
-        username: "mirzamirsab",
-        email: "MochamadMirsab@email.com",
+        name: "",
+        password: "",
+        email: "",
     });
-
     const [isEditing, setIsEditing] = useState(false);
-    const [editedProfile, setEditedProfile] = useState(profile);
+    const [editedProfile, setEditedProfile] = useState({
+        name: "",
+        password: "",
+    });
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    throw new Error("User is not authenticated");
+                }
+
+                const response = await fetch("http://localhost:8000/api/user", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user profile");
+                }
+
+                const data = await response.json();
+                setProfile(data); // Update profile dengan data dari server
+                setEditedProfile({ name: data.name, password: "" }); // Set nama dan kosongkan password untuk editing
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchUserProfile();
+    }, []);
 
     const handleEditClick = () => {
         setIsEditing(true);
     };
 
-    const handleSaveClick = () => {
-        setProfile(editedProfile);
-        setIsEditing(false);
+    const handleSaveClick = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                throw new Error("User is not authenticated");
+            }
+
+            const response = await fetch("http://localhost:8000/api/user", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(editedProfile),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to save user profile");
+            }
+
+            setProfile({ ...profile, ...editedProfile }); // Update profile dengan perubahan
+            setIsEditing(false);
+        } catch (error) {
+            setError(error.message);
+        }
     };
 
     const handleChange = (e) => {
@@ -25,36 +82,34 @@ const YourProfile = () => {
         setEditedProfile({ ...editedProfile, [name]: value });
     };
 
+    if (isLoading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p className="text-red-500">Error: {error}</p>;
+    }
+
     return (
         <div className="max-w-md mx-auto font-sans">
             {isEditing ? (
                 <div>
                     <div className="mb-4">
-                        <label className="block text-gray-700">Full Name:</label>
+                        <label className="block text-gray-700">Name:</label>
                         <input
                             type="text"
-                            name="fullName"
-                            value={editedProfile.fullName}
+                            name="name"
+                            value={editedProfile.name}
                             onChange={handleChange}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-gray-700">Username:</label>
+                        <label className="block text-gray-700">Password:</label>
                         <input
-                            type="text"
-                            name="username"
-                            value={editedProfile.username}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Email:</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={editedProfile.email}
+                            type="password"
+                            name="password"
+                            value={editedProfile.password}
                             onChange={handleChange}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
                         />
@@ -69,16 +124,16 @@ const YourProfile = () => {
             ) : (
                 <div>
                     <div className="mb-4">
-                        <h3 className="text-lg font-medium">Full Name</h3>
-                        <p className="text-gray-600">{profile.fullName}</p>
-                    </div>
-                    <div className="mb-4">
-                        <h3 className="text-lg font-medium">Username</h3>
-                        <p className="text-gray-600">{profile.username}</p>
+                        <h3 className="text-lg font-medium">Name</h3>
+                        <p className="text-gray-600">{profile.name}</p>
                     </div>
                     <div className="mb-4">
                         <h3 className="text-lg font-medium">Email</h3>
                         <p className="text-gray-600">{profile.email}</p>
+                    </div>
+                    <div className="mb-4">
+                        <h3 className="text-lg font-medium">Password</h3>
+                        <p className="text-gray-600">******</p>
                     </div>
                     <button
                         onClick={handleEditClick}
