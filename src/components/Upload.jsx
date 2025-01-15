@@ -9,8 +9,8 @@ const Upload = () => {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
-    const [category, setCategory] = useState("");  // New state for category
-    const [subcategory, setSubcategory] = useState("");  // New state for subcategory
+    const [category, setCategory] = useState("");  
+    const [subcategory, setSubcategory] = useState("");  
 
     useEffect(() => {
         const checkAuthorization = async () => {
@@ -64,8 +64,8 @@ const Upload = () => {
         formData.append("name", name);
         formData.append("description", description);
         formData.append("price", price);
-        formData.append("category_id", category);  // Add category
-        formData.append("subcategory_id", subcategory);  // Add subcategory
+        formData.append("category_id", category);  
+        formData.append("subcategory_id", subcategory);  
 
         try {
             setUploading(true);
@@ -86,8 +86,8 @@ const Upload = () => {
                 setName("");
                 setPrice("");
                 setDescription("");
-                setCategory("");  // Reset category
-                setSubcategory("");  // Reset subcategory
+                setCategory("");  
+                setSubcategory("");  
             } else {
                 const errorData = await response.json();
                 setUploadStatus(`Error: ${errorData.message || "Failed to upload file."}`);
@@ -168,7 +168,7 @@ const Upload = () => {
                 />
             </div>
 
-            {/* Category and Subcategory */}
+            
             <div className="mt-6">
                 <label className="block text-lg font-semibold text-gray-700">Category</label>
                 <select
@@ -177,7 +177,7 @@ const Upload = () => {
                     className="mt-2 p-2 border rounded-md w-full"
                 >
                     <option value="">Select Category</option>
-                    {/* Add categories dynamically if needed */}
+                    
                     <option value="1">Category 1</option>
                     <option value="2">Category 2</option>
                 </select>
@@ -191,7 +191,7 @@ const Upload = () => {
                     className="mt-2 p-2 border rounded-md w-full"
                 >
                     <option value="">Select Subcategory</option>
-                    {/* Add subcategories dynamically if needed */}
+                
                     <option value="1">Subcategory 1</option>
                     <option value="2">Subcategory 2</option>
                 </select>

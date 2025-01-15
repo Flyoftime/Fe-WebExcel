@@ -23,12 +23,12 @@ export default function Register() {
             });
             const data = await response.json();
             if (response.ok) {
-                router.push("/login"); // Redirect to login if registration is successful
+                router.push("/login"); 
             } else {
-                setError(data.message); // Show error message if registration fails
+                setError(data.message); 
             }
         } catch (err) {
-            setError("Something went wrong"); // Show general error if request fails
+            setError("Something went wrong"); 
         }
     };
 

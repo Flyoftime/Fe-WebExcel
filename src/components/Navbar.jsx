@@ -6,10 +6,10 @@ import { ArrowUpTrayIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outlin
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // Cek login status saat komponen dimuat
+    
     useEffect(() => {
         const token = localStorage.getItem("token");
-        setIsLoggedIn(!!token); // Set true jika token ada
+        setIsLoggedIn(!!token); 
         
     }, []);
 
@@ -20,16 +20,16 @@ const Navbar = () => {
 
     return (
         <div className="navbar bg-base-100 shadow-md">
-            {/* Logo Section */}
+            
             <div className="flex-1">
                 <Link href="/" className="btn btn-ghost text-xl">
                     MyApp
                 </Link>
             </div>
 
-            {/* Right Section */}
+            
             <div className="flex-none space-x-4">
-                {/* Search Bar with Icon */}
+               
                 <div className="form-control relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                         <MagnifyingGlassIcon className="h-5 w-5 text-gray-500" />
@@ -41,7 +41,7 @@ const Navbar = () => {
                     />
                 </div>
 
-                {/* Upload Button */}
+                
                 <Link href="/upload">
                     <button className="flex items-center text-white px-4 py-2 rounded hover:text-gray-600">
                         <ArrowUpTrayIcon className="h-5 w-5 mr-2" />
@@ -49,9 +49,8 @@ const Navbar = () => {
                     </button>
                 </Link>
 
-                {/* Login/Avatar Dropdown */}
                 {isLoggedIn ? (
-                    // Avatar and Dropdown for Logged-In Users
+                    
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
@@ -83,7 +82,7 @@ const Navbar = () => {
                         </ul>
                     </div>
                 ) : (
-                    // Login Button for Non-Logged-In Users
+                    
                     <Link href="/login">
                         <button className="text-white px-4 py-2 rounded hover:text-gray-600">
                             Login

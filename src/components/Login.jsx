@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { signIn } from "next-auth/react"; // Import signIn from NextAuth.js
-import { useRouter } from "next/navigation"; // Import useRouter from Next.js
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation"; 
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -41,7 +41,7 @@ const Login = () => {
         }
     }, [userData, router]);
 
-    // Handle Google login
+   
     const handleGoogleLogin = async () => {
         const result = await signIn('google', { redirect: false });
         if (result?.error) {
@@ -59,7 +59,7 @@ const Login = () => {
         }
     };
 
-    // Handle input field changes
+    
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
