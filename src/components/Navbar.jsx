@@ -10,11 +10,12 @@ const Navbar = () => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         setIsLoggedIn(!!token); // Set true jika token ada
+        
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem("token"); // Hapus token
-        setIsLoggedIn(false); // Perbarui status login
+        localStorage.removeItem("token"); 
+        setIsLoggedIn(false);
     };
 
     return (
@@ -89,6 +90,7 @@ const Navbar = () => {
                         </button>
                     </Link>
                 )}
+                
             </div>
         </div>
     );

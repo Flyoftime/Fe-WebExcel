@@ -6,12 +6,16 @@ const Upload = () => {
     const [uploading, setUploading] = useState(false);
     const [uploadStatus, setUploadStatus] = useState("");
     const [isAuthorized, setIsAuthorized] = useState(false);
+    const [name, setName] = useState("");
+    const [price, setPrice] = useState("");
+    const [description, setDescription] = useState("");
+    const [category, setCategory] = useState("");  // New state for category
+    const [subcategory, setSubcategory] = useState("");  // New state for subcategory
 
-    // Cek otorisasi pengguna
     useEffect(() => {
         const checkAuthorization = async () => {
             try {
-                const token = localStorage.getItem("token"); 
+                const token = localStorage.getItem("token");
                 if (!token) {
                     setIsAuthorized(false);
                     return;
@@ -25,8 +29,7 @@ const Upload = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    
-                    setIsAuthorized(data.role_id === 2);
+                    setIsAuthorized(data.role === "seller");
                 } else {
                     setIsAuthorized(false);
                 }
@@ -51,15 +54,25 @@ const Upload = () => {
             return;
         }
 
+        if (!name || !price || !category || !subcategory) {
+            setUploadStatus("Please provide all the required fields.");
+            return;
+        }
+
         const formData = new FormData();
         formData.append("file", file);
+        formData.append("name", name);
+        formData.append("description", description);
+        formData.append("price", price);
+        formData.append("category_id", category);  // Add category
+        formData.append("subcategory_id", subcategory);  // Add subcategory
 
         try {
             setUploading(true);
             setUploadStatus("");
             const token = localStorage.getItem("token");
 
-            const response = await fetch("http://localhost:8000/api/products/upload", {
+            const response = await fetch("http://localhost:8000/api/upload-products", {
                 method: "POST",
                 body: formData,
                 headers: {
@@ -70,6 +83,11 @@ const Upload = () => {
             if (response.ok) {
                 setUploadStatus("File uploaded successfully!");
                 setFile(null);
+                setName("");
+                setPrice("");
+                setDescription("");
+                setCategory("");  // Reset category
+                setSubcategory("");  // Reset subcategory
             } else {
                 const errorData = await response.json();
                 setUploadStatus(`Error: ${errorData.message || "Failed to upload file."}`);
@@ -118,43 +136,80 @@ const Upload = () => {
                 <p className="mt-4 text-gray-700">Selected File: {file.name}</p>
             )}
 
+            <div className="mt-6">
+                <label className="block text-lg font-semibold text-gray-700">Name</label>
+                <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="mt-2 p-2 border rounded-md w-full"
+                    placeholder="Enter product name"
+                />
+            </div>
+
+            <div className="mt-6">
+                <label className="block text-lg font-semibold text-gray-700">Price</label>
+                <input
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    className="mt-2 p-2 border rounded-md w-full"
+                    placeholder="Enter price"
+                />
+            </div>
+            <div className="mt-6">
+                <label className="block text-lg font-semibold text-gray-700">Description</label>
+                <input
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="mt-2 p-2 border rounded-md w-full"
+                    placeholder="Enter description"
+                />
+            </div>
+
+            {/* Category and Subcategory */}
+            <div className="mt-6">
+                <label className="block text-lg font-semibold text-gray-700">Category</label>
+                <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="mt-2 p-2 border rounded-md w-full"
+                >
+                    <option value="">Select Category</option>
+                    {/* Add categories dynamically if needed */}
+                    <option value="1">Category 1</option>
+                    <option value="2">Category 2</option>
+                </select>
+            </div>
+
+            <div className="mt-6">
+                <label className="block text-lg font-semibold text-gray-700">Subcategory</label>
+                <select
+                    value={subcategory}
+                    onChange={(e) => setSubcategory(e.target.value)}
+                    className="mt-2 p-2 border rounded-md w-full"
+                >
+                    <option value="">Select Subcategory</option>
+                    {/* Add subcategories dynamically if needed */}
+                    <option value="1">Subcategory 1</option>
+                    <option value="2">Subcategory 2</option>
+                </select>
+            </div>
+
             <button
                 onClick={handleUpload}
-                className={`mt-6 bg-green-500 text-white px-6 py-2 text-lg rounded shadow hover:bg-green-600 ${uploading ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
+                className={`mt-6 bg-green-500 text-white px-6 py-2 text-lg rounded shadow hover:bg-green-600 ${uploading ? "opacity-50 cursor-not-allowed" : ""}`}
                 disabled={uploading}
             >
                 {uploading ? "Uploading..." : "Upload File"}
             </button>
 
             {uploadStatus && (
-                <p
-                    className={`mt-4 text-sm ${uploadStatus.startsWith("Error")
-                        ? "text-red-500"
-                        : "text-green-500"
-                        }`}
-                >
+                <p className={`mt-4 text-sm ${uploadStatus.startsWith("Error") ? "text-red-500" : "text-green-500"}`}>
                     {uploadStatus}
                 </p>
             )}
-
-            <p className="mt-6 text-sm text-gray-500">
-                Supported file types: pdf, txt, doc, ppt, xls, docx, and more
-                <br />
-                By uploading, you agree to our{" "}
-                <a href="#" className="text-blue-500 hover:underline">
-                    Scribd Uploader Agreement
-                </a>
-                .
-            </p>
-            <p className="mt-2 text-sm text-gray-500">
-                You must own the copyright to any document you share on Scribd.
-                You can read more about this in our{" "}
-                <a href="#" className="text-blue-500 hover:underline">
-                    Copyright FAQs
-                </a>
-                .
-            </p>
         </div>
     );
 };

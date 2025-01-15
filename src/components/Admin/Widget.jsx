@@ -1,4 +1,5 @@
-
+"use client";
+import { useState, useEffect } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
@@ -6,10 +7,28 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 
 const Widget = ({ type }) => {
+    const [userCount, setUserCount] = useState(null);
     let data;
 
     const amount = 100;
     const diff = 20;
+
+    useEffect(() => {
+        // Fetch user data from the API endpoint
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/user');
+                const data = await response.json();
+                setUserCount(data.length); 
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
+
+        if (type === "user") {
+            fetchUserData();
+        }
+    }, [type]);
 
     switch (type) {
         case "user":
@@ -69,7 +88,7 @@ const Widget = ({ type }) => {
             <div className="flex flex-col justify-between">
                 <span className="text-gray-500 font-bold text-sm">{data.title}</span>
                 <span className="text-xl font-light">
-                    {data.isMoney && "$"} {amount}
+                    {data.isMoney && "$"} {type === "user" ? userCount : amount}
                 </span>
                 <span className="text-xs underline text-gray-500">{data.link}</span>
             </div>
