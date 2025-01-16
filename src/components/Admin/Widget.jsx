@@ -8,22 +8,49 @@ import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlin
 
 const Widget = ({ type }) => {
     const [userCount, setUserCount] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [products,setProducts] = useState([]);
+
     let data;
 
     const amount = 100;
     const diff = 20;
 
     useEffect(() => {
-        // Fetch user data from the API endpoint
         const fetchUserData = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/user');
+                const response = await fetch('http://localhost:8000/api/get/user');
                 const data = await response.json();
-                setUserCount(data.length); 
+                console.log("Fetched data:", data); 
+
+                if (data.user) {
+                    setUserCount(data.user.length);  
+                } else {
+                    console.error("Data users tidak ditemukan!");
+                    setUserCount(0);  
+                }
             } catch (error) {
                 console.error("Error fetching user data:", error);
+                setUserCount(0);  
+            } finally {
+                setLoading(false);  
             }
         };
+
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch('http://localhost:8000/api/get/product');
+            const data = await response.json();
+            console.log("Fetched Products:", data);
+            setProducts(data.products || []); // Pastikan data berupa array
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
+
+        if (type === "order") {
+            fetchProducts();
+        }
 
         if (type === "user") {
             fetchUserData();
@@ -33,7 +60,7 @@ const Widget = ({ type }) => {
     switch (type) {
         case "user":
             data = {
-                title: "USERS",
+                title: "Users",
                 isMoney: false,
                 link: "See all users",
                 icon: (
@@ -87,8 +114,8 @@ const Widget = ({ type }) => {
         <div className="flex justify-between flex-1 p-4 shadow-md rounded-lg h-[100px]">
             <div className="flex flex-col justify-between">
                 <span className="text-gray-500 font-bold text-sm">{data.title}</span>
-                <span className="text-xl font-light">
-                    {data.isMoney && "$"} {type === "user" ? userCount : amount}
+                <span className="text-xl text-black">
+                    {userCount && type === "user" ? userCount : products.length && type === "order" ? products.length : products}
                 </span>
                 <span className="text-xs underline text-gray-500">{data.link}</span>
             </div>
