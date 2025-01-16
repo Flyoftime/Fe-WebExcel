@@ -3,7 +3,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
 
-export const handler = NextAuth({
+export const authOptions = {
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
@@ -16,41 +16,43 @@ export const handler = NextAuth({
                 password: { label: 'Password', type: 'password' },
             },
             async authorize(credentials) {
-                const res = await axios.post('http://localhost:8000/api/login', {
-                    email: credentials.email,
-                    password: credentials.password,
-                });
-
-                if (res.data.token) {
-                    return { token: res.data.token, user: res.data.user };
-                } else {
+                try {
+                    const res = await axios.post('http://localhost:8000/api/login', {
+                        email: credentials.email,
+                        password: credentials.password,
+                    });
+                    if (res.data?.token) {
+                        return res.data.user;
+                    }
+                    return null;
+                } catch (error) {
+                    console.error(error);
                     return null;
                 }
             },
         }),
     ],
     callbacks: {
-        async jwt({ token, user }) {
-            if (user) {
-                token = {
-                    ...token,
-                    id: user.id,
-                    role: user.role,
-                    token: user.token,
-                };
+        async jwt({ token, user, account }) {
+            if (account && user) {
+                token.id = user.id || null;
+                token.role = user.role || null;
+                token.image = user.image || null;
             }
             return token;
         },
         async session({ session, token }) {
-            session.user.id = token.id;
-            session.user.role = token.role;
-            session.user.token = token.token;
+            session.user.id = token.id || null;
+            session.user.role = token.role || null;
+            session.user.image = token.image || session.user.image;
             return session;
         },
     },
+    secret: process.env.NEXTAUTH_SECRET,
     pages: {
-        signIn: '/auth/signin',
+        signIn: '/login',
     },
-});
+};
 
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

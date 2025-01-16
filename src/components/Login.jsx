@@ -41,22 +41,10 @@ const Login = () => {
         }
     }, [userData, router]);
 
-   
+
     const handleGoogleLogin = async () => {
         const result = await signIn('google', { redirect: false });
-        if (result?.error) {
-            setError(result.error || 'Google login failed');
-        } else {
-            console.log('Google login successful', result);
-            const userData = result.user;
-            localStorage.setItem('token', userData.token);
-
-            if (userData.role === 'admin') {
-                router.push('/admin');
-            } else {
-                router.push('/');
-            }
-        }
+        console.log(result)
     };
 
     
