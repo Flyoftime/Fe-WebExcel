@@ -21,23 +21,21 @@ const Upload = () => {
         const token = localStorage.getItem("token");
         if (!token) {
           setIsAuthorized(false);
-          return;
         }
 
-        const response = await fetch("http://localhost:8000/api/user", {
+        const response = await fetch("http://localhost:8000/api/get/user", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
         if (response.ok) {
-          const data = await response.json();
-          setIsAuthorized(data.role === "seller");
+          setIsAuthorized(true);
         } else {
           setIsAuthorized(false);
         }
       } catch (error) {
-        console.error("Authorization check failed:", error);
+        console.error("Error checking authorization:", error);
         setIsAuthorized(false);
       }
     };
@@ -48,7 +46,7 @@ const Upload = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/categories");
+        const response = await fetch("http://localhost:8000/api/get/categories");
         if (response.ok) {
           const data = await response.json();
           setCategories(data.categories);
@@ -134,7 +132,7 @@ const Upload = () => {
         <h1 className="text-2xl font-bold mb-2">Access Denied</h1>
         <p className="text-gray-600 text-lg">
           You do not have the necessary permissions to upload files. Only
-          sellers (role_id: 2) can upload.
+          Sellers can upload.
         </p>
       </div>
     );
