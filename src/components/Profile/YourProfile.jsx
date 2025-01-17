@@ -23,7 +23,7 @@ const YourProfile = () => {
                     throw new Error("User is not authenticated");
                 }
 
-                const response = await fetch("http://localhost:8000/api/user", {
+                const response = await fetch("http://localhost:8000/api/get/user", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

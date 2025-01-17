@@ -1,18 +1,29 @@
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../api/auth/[...nextauth]/route';
+import { redirect } from 'next/navigation';
 import Footer from '@/components/User/Footer'
 import Navbar from '@/components/User/Navbar'
 import Upload from '@/components/User/Upload'
 import React from 'react'
 
-const Uploadpage = () => {
+const Uploadpage = async () => {
+    const session = await getServerSession(authOptions);
+    console.log(session)
+    if (!session || session.user.role !== 'seller') {
+        redirect('/');
+    }
     return (
-        <div>
-            <main>
+        <div className="bg-[#0d0f2b]">
+            <div className="flex flex-col min-h-screen">
                 <Navbar />
-                <Upload />
+                <main className="flex-grow">
+                    <Upload />
+                </main>
                 <Footer />
-            </main>
+
+            </div>
         </div>
-    )
+            )
 }
 
-export default Uploadpage
+export default Uploadpage;

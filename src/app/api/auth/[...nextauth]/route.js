@@ -51,6 +51,9 @@ export const authOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
         signIn: '/login',
+        error: '/auth/error', // halaman untuk menangani kesalahan login
+        verifyRequest: '/auth/verify-request', // halaman untuk verifikasi email
+        newAccount: '/welcome', // setelah pembuatan akun baru
     },
 };
 

@@ -10,7 +10,6 @@ const Search = () => {
 
         e.preventDefault();
         if (searchQuery.trim()) {
-            // Redirect to search results page with query
             window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
         }
     };

@@ -1,3 +1,6 @@
+"use client";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation"; 
 import Link from "next/link";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
@@ -13,9 +16,18 @@ import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 const Sidebar = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(true); 
+    const router = useRouter(); 
+
+    const handleLogout = () => {
+        localStorage.removeItem("token"); 
+        setIsLoggedIn(false); 
+        router.push("/login"); 
+    };
+
     return (
         <div className="flex">
-            <div className=" border-r-[0.5px] border-gray-300 h-screen bg-white">
+            <div className="border-r-[0.5px] border-gray-300 h-screen bg-white">
                 <div className="h-[50px] flex items-center justify-center">
                     <Link href="/" className="no-underline">
                         <button className="text-lg font-bold text-purple-700">admin</button>
@@ -77,7 +89,11 @@ const Sidebar = () => {
                             <AccountCircleOutlinedIcon className="text-lg text-purple-600" />
                             <span className="text-sm font-semibold text-gray-500 ml-2">Profile</span>
                         </li>
-                        <li className="flex items-center p-1 cursor-pointer hover:bg-purple-100">
+                        {/* Logout Button */}
+                        <li
+                            onClick={handleLogout}
+                            className="flex items-center p-1 cursor-pointer hover:bg-purple-100"
+                        >
                             <ExitToAppIcon className="text-lg text-purple-600" />
                             <span className="text-sm font-semibold text-gray-500 ml-2">Logout</span>
                         </li>
