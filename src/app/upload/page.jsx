@@ -1,6 +1,6 @@
-import Footer from '@/components/Footer'
-import Navbar from '@/components/Navbar'
-import Upload from '@/components/Upload'
+import Footer from '@/components/User/Footer'
+import Navbar from '@/components/User/Navbar'
+import Upload from '@/components/User/Upload'
 import React from 'react'
 
 const Uploadpage = () => {
