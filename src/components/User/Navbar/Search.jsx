@@ -17,12 +17,12 @@ const Search = () => {
         <div>
             <form
                 onSubmit={handleSearch}
-                className="hidden md:flex form-control items-center relative mr-4"
+                className="hidden md:flex form-control items-center relative mr-4 "
             >
                 <input
                     type="text"
                     placeholder="Search"
-                    className="input input-bordered pl-10 w-48 md:w-64"
+                    className="input input-bordered pl-10 w-48 md:w-64 bg-slate-200" 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />

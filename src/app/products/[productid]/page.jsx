@@ -1,18 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import Sidebar from '@/components/Profile/Document/Sidebar';
+import ViewDocument from '@/components/Profile/Document/ViewDocument';
+import Navbar from '@/components/User/Navbar';
+import React from 'react';
 
 const Page = ({ params }) => {
-    const [id, setId] = useState();
-
-    useEffect(() => {
-        if (params?.productid) {
-            setId(params.productid);
-        }
-    }, [params]);
+    
 
     return (
-        <div>{id ? `Product ID: ${id}` : 'Loading...'}</div>
+        <div className='max-w-screen w-full min-h-screen px-64 py-[68px]'>
+            <Sidebar/>{/* bisi mau edit yang ini ada di folder profile document bagian side bar nanti kalau mau bikin preview di viewDOcument */}
+            <Navbar/>
+            <ViewDocument params={params} />
+            </div>
     );
 };
 

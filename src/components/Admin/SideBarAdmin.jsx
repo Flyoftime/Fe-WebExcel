@@ -42,26 +42,13 @@ const Sidebar = () => {
                             <span className="text-sm font-semibold text-gray-500 ml-2">Dashboard</span>
                         </li>
                         <p className="text-[10px] font-bold text-gray-500 mt-4 mb-2">LISTS</p>
-                        <Link href="/users">
+                        <Link href="/admin/user">
                             <button className="flex items-center p-1 cursor-pointer hover:bg-purple-100 no-underline">
                                 <PersonOutlineIcon className="text-lg text-purple-600" />
                                 <span className="text-sm font-semibold text-gray-500 ml-2">Users</span>
                             </button>
                         </Link>
-                        <Link href="/products">
-                            <button className="flex items-center p-1 cursor-pointer hover:bg-purple-100 no-underline">
-                                <StoreIcon className="text-lg text-purple-600" />
-                                <span className="text-sm font-semibold text-gray-500 ml-2">Products</span>
-                            </button>
-                        </Link>
-                        <li className="flex items-center p-1 cursor-pointer hover:bg-purple-100">
-                            <CreditCardIcon className="text-lg text-purple-600" />
-                            <span className="text-sm font-semibold text-gray-500 ml-2">Orders</span>
-                        </li>
-                        <li className="flex items-center p-1 cursor-pointer hover:bg-purple-100">
-                            <LocalShippingIcon className="text-lg text-purple-600" />
-                            <span className="text-sm font-semibold text-gray-500 ml-2">Delivery</span>
-                        </li>
+                        
                         <p className="text-[10px] font-bold text-gray-500 mt-4 mb-2">USEFUL</p>
                         <li className="flex items-center p-1 cursor-pointer hover:bg-purple-100">
                             <InsertChartIcon className="text-lg text-purple-600" />

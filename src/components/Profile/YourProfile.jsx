@@ -101,7 +101,7 @@ const YourProfile = () => {
                             name="name"
                             value={editedProfile.name}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 bg-white text-black"
                         />
                     </div>
                     <div className="mb-4">
@@ -111,7 +111,7 @@ const YourProfile = () => {
                             name="password"
                             value={editedProfile.password}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200 bg-white text-black"
                         />
                     </div>
                     <button
@@ -123,9 +123,9 @@ const YourProfile = () => {
                 </div>
             ) : (
                 <div>
-                    <div className="mb-4">
+                    <div className="mb-4 bg-white">
                         <h3 className="text-lg font-medium">Name</h3>
-                        <p className="text-gray-600">{profile.name}</p>
+                        <p className="text-gray-600 ">{profile.name}</p>
                     </div>
                     <div className="mb-4">
                         <h3 className="text-lg font-medium">Email</h3>

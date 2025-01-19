@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronDownIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { signOut, getSession } from "next-auth/react";
 import axios from "axios";
+import Search from "./Navbar/Search";
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [name, setName] = useState("");
@@ -12,6 +13,8 @@ const Navbar = () => {
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    
 
     // Fetch session on mount
     useEffect(() => {
@@ -33,13 +36,12 @@ const Navbar = () => {
         fetchSession();
     }, []);
 
-    // Fetch categories from API
     useEffect(() => {
         const fetchCategories = async () => {
             setIsLoading(true);
             try {
-                const response = await axios.get("http://localhost:8000/api/get/categories"); // Ganti URL sesuai dengan endpoint Anda
-                setCategories(response.data.categories || []); // Pastikan API mengembalikan data dengan format yang benar
+                const response = await axios.get("http://localhost:8000/api/get/categories"); 
+                setCategories(response.data.categories || []); 
             } catch (err) {
                 setError(err.response?.data?.message || "Failed to fetch categories");
             } finally {
@@ -54,39 +56,20 @@ const Navbar = () => {
         signOut({ callbackUrl: "/login" });
     };
 
-    const handleSearch = (e) => {
-        e.preventDefault();
-        if (searchQuery.trim()) {
-            window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
-        }
-    };
-
     return (
-        <nav className="navbar bg-base-100 shadow-md px-4">
-            <div className="flex items-center justify-between w-full">
+        <nav className="navbar shadow-md px-4 bg-white fixed top-0 right-0 ]">
+            <div className="flex items-center justify-between w-full ">
                 {/* Logo */}
                 <div className="flex-1">
-                    <Link href="/" className="btn btn-ghost normal-case text-xl">
+                    <Link href="/" className="btn btn-ghost normal-case text-xl text-black">
                         MyApp
                     </Link>
                 </div>
 
-                {/* Search Bar */}
-                <form
-                    onSubmit={handleSearch}
-                    className="form-control flex items-center relative mr-4"
-                >
-                    <input
-                        type="text"
-                        placeholder="Search"
-                        className="input input-bordered pl-10 w-48 md:w-64"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                </form>
+                <Search />
 
                 {/* Categories */}
-                <ul className="menu menu-horizontal px-4 space-x-4">
+                <ul className="menu menu-horizontal px-4 space-x-4 ">
                     {isLoading ? (
                         <li>Loading...</li>
                     ) : error ? (
@@ -94,7 +77,7 @@ const Navbar = () => {
                     ) : (
                         categories.slice(0, 3).map((category) => (
                             <li key={category.id} className="relative group">
-                                <button className="hover:text-primary inline-flex items-center">
+                                <button className="hover:text-gray-600 text-black inline-flex items-center">
                                     {category.name} <ChevronDownIcon className="h-4 w-4 ml-1" />
                                 </button>
                                 <ul className="absolute hidden group-hover:block bg-white shadow-lg rounded-md p-2 mt-2">
@@ -102,7 +85,7 @@ const Navbar = () => {
                                         <li key={subcategory.id}>
                                             <Link
                                                 href={`/category/${subcategory.name.toLowerCase().replace(/\s+/g, "-")}`}
-                                                className="block px-4 py-2 hover:bg-gray-100"
+                                                className="block px-4 py-2 hover:text-gray-600 text-black"
                                             >
                                                 {subcategory.name}
                                             </Link>
@@ -114,7 +97,7 @@ const Navbar = () => {
                     )}
                     <li>
                         <Link href="/categories">
-                            <button className="hover:text-primary">All Categories</button>
+                            <button className="hover:text-gray-600 text-black">All Categories</button>
                         </Link>
                     </li>
                 </ul>
@@ -123,7 +106,7 @@ const Navbar = () => {
                 {isLoggedIn ? (
                     <div className="dropdown dropdown-end">
                         <label tabIndex={0} className="btn btn-ghost cursor-pointer">
-                            <div className=" truncate">{name}</div>
+                            <div className=" truncate text-black">{name}</div>
                         </label>
                         <ul
                             tabIndex={0}
@@ -131,7 +114,7 @@ const Navbar = () => {
                         >
                             <li>
                                 <Link href="/profile">
-                                    <button className="block text-black">Profile</button>
+                                    <button className="block text-black text-black">Profile</button>
                                 </Link>
                             </li>
                             <li>
@@ -148,7 +131,7 @@ const Navbar = () => {
                     </div>
                 ) : (
                     <Link href="/login">
-                        <button className="hover:text-gray-600">Login</button>
+                        <button className="hover:text-gray-600 text-black">Login</button>
                     </Link>
                 )}
             </div>

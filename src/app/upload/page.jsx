@@ -13,7 +13,7 @@ const Uploadpage = async () => {
         redirect('/');
     }
     return (
-        <div className="bg-[#0d0f2b]">
+        <div className="bg-white">
             <div className="flex flex-col min-h-screen">
                 <Navbar />
                 <main className="flex-grow">

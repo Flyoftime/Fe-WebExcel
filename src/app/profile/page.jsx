@@ -5,7 +5,7 @@ import Footer from '@/components/User/Footer';
 
 const page = () => {
     return (
-        <div className="bg-backgroundLight dark:bg-backgroundDark text-textDark dark:text-textLight">
+        <div className="bg-white">
             <Navbar />
             <CardAccount />
             <Footer />

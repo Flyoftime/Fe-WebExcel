@@ -1,9 +1,9 @@
 import React from 'react';
 
-const ContentSection = () => {
+const Sidebar = () => {
     return (
-        <div className="p-6 bg-white">
-            <h1 className="text-2xl font-bold mb-2">
+        <div className="fixed top-[68px] left-0 h-[calc(100vh-68px)] w-64 bg-white shadow-md p-6">
+            <h1 className="text-2xl font-bold mb-2 text-black">
                 (Cover Baru) The Alpha Girl S Guide (Henry Manampiring)
             </h1>
             <p className="text-sm text-gray-500 mb-4">
@@ -13,11 +13,11 @@ const ContentSection = () => {
                 ✨ AI-enhanced
             </div>
             <p className="text-sm text-gray-700 mb-4">
-                The document repeatedly states "Shopee ID | DigitalCastle" and "shopee : digitalcastle"
+                The document repeatedly states Shopee ID 
                 over multiple lines. It appears to be relating the online marketplace Shopee to the company
                 DigitalCastle… <span className="text-blue-500 cursor-pointer">Full description</span>
             </p>
-            <div className="flex items-center space-x-6">
+            <div className="flex flex-col space-y-4">
                 <div className="text-center">
                     <i className="fas fa-download text-gray-500"></i>
                     <p className="text-xs text-gray-500">Download</p>
@@ -50,9 +50,10 @@ const ContentSection = () => {
                     <i className="fas fa-flag text-gray-500"></i>
                     <p className="text-xs text-gray-500">Report</p>
                 </div>
-            </div>
+            </div>    
         </div>
     );
 };
 
-export default ContentSection;
+export default Sidebar;
+//ini jek belum di integrasi buat sidebar di preview

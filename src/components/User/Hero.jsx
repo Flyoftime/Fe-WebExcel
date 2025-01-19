@@ -24,20 +24,20 @@ const Hero = ({ handleOrderPopup }) => {
         fetchProducts();
     }, []);
 
-    const bgImage = {
-        backgroundImage: `url(/public/assets/books/blue-pattern.png)`, // Change this to a valid URL or import
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        width: "100%",
-    };
+    // const bgImage = {
+    //     backgroundImage: `url(/public/assets/books/blue-pattern.png)`, 
+    //     backgroundPosition: "center",
+    //     backgroundRepeat: "no-repeat",
+    //     backgroundSize: "cover",
+    //     width: "100%",
+    // };
 
-    if (!selectedProduct) return null; // Return null while waiting for the products to load
+    if (!selectedProduct) return null; 
 
     return (
         <div
             className="min-h-[550px] sm:min-h-[650px] bg-gray-100 flex justify-center items-center dark:bg-gray-950 dark:text-white duration-200"
-            style={bgImage}
+            // style={bgImage}
         >
             <div className="container pb-8 sm:pb-0">
                 <div className="grid grid-cols-1 sm:grid-cols-2">

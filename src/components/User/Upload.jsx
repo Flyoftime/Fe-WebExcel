@@ -194,7 +194,7 @@ const Upload = () => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="mt-2 p-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-2 p-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
             placeholder="Enter product name"
           />
         </div>
@@ -205,7 +205,7 @@ const Upload = () => {
             type="number"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
-            className="mt-2 p-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-2 p-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
             placeholder="Enter price"
           />
         </div>
@@ -216,7 +216,7 @@ const Upload = () => {
             type="text"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="mt-2 p-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-2 p-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
             placeholder="Enter description"
           />
         </div>
@@ -226,7 +226,7 @@ const Upload = () => {
           <select
             value={category}
             onChange={(e) => handleCategoryChange(e.target.value)}
-            className="mt-2 p-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-2 p-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
           >
             <option value="">Select Category</option>
             {categories.map((category) => (
@@ -239,7 +239,7 @@ const Upload = () => {
           <select
             value={subcategory}
             onChange={(e) => setSubcategory(e.target.value)}
-            className="mt-2 p-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-2 p-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
           >
             <option value="">Select Subcategory</option>
             {subcategories.map((subcategory) => (
