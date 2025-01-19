@@ -2,14 +2,18 @@
 
 import React, { useEffect, useState } from "react";
 
+
 const RecomendationPage = ({ data }) => {
     const [products, setProducts] = useState([]);
+
+    console.log(`Data dari servcer ${data}`)
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const response = await fetch("http://localhost:8000/api/get/product");
                 const data = await response.json();
+                console.log("Fetched Products:", data);
                 setProducts(data.products || []);
             } catch (error) {
                 console.error("Error fetching products:", error);
@@ -21,40 +25,39 @@ const RecomendationPage = ({ data }) => {
 
     const handleProductSelect = (productId) => {
         console.log("Selected Product ID:", productId);
-        window.location = `/products/${productId}`;
+        window.location = `/products/${productId}`
     };
 
     return (
-        <div className="bg-gray-100 px-4 py-6">
-            <h2 className="text-2xl font-bold mb-6">For You</h2>
+        <div className=" bg-gray-100">
+            <h2 className="text-xl font-bold mb-4">For You</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {Array.isArray(products) &&
                     products.map((product, index) => (
                         <div
                             key={product.id || index}
-                            className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200"
+                            className="bg-white shadow-md rounded-lg overflow-hidden"
                             onClick={() => handleProductSelect(product.id)}
                             style={{ cursor: "pointer" }}
                         >
-                            <div className="relative">
-                                
-                                <div className="h-40 bg-gray-200 flex items-center justify-center">
-                                    <span className="text-lg font-semibold text-gray-500">Execl</span>
-                                </div>
-                                <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
-                                    Xlxs
-                                </div>
-                            </div>
                             <div className="p-4">
-                                <p className="text-base font-semibold text-gray-800 mb-1 truncate">
+                                <div className="h-32 bg-gray-200 flex items-center justify-center mb-4">
+                                    <span className="text-sm text-gray-500">PDF</span>
+                                </div>
+                                <p className="text-sm font-medium mb-1 text-gray-500">
                                     {product.name}
                                 </p>
-                                <p className="text-sm text-gray-600 mb-2">
-                                    Added by {product.addedBy || "Unknown"}
-                                </p>
                                 <p className="text-xs text-gray-500">
-                                    Category: {product.category.name || "N/A"}
+                                    Category : {product.category.name}
                                 </p>
+                                <div className="flex justify-between items-center mt-2">
+                                    <p className="text-sm text-gray-500">
+                                        {product.rating ? `${product.rating}%` : "No rating"}
+                                    </p>
+                                    <button>
+                                        <i className="far fa-bookmark text-gray-500"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -64,3 +67,4 @@ const RecomendationPage = ({ data }) => {
 };
 
 export default RecomendationPage;
+
