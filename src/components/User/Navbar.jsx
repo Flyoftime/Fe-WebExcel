@@ -84,7 +84,7 @@ const Navbar = () => {
                                     {category.subcategories.map((subcategory) => (
                                         <li key={subcategory.id}>
                                             <Link
-                                                href={`/category/${subcategory.name.toLowerCase().replace(/\s+/g, "-")}`}
+                                                href={`/products/categories/${subcategory.name.toLowerCase().replace(/\s+/g, "-")}`}
                                                 className="block px-4 py-2 hover:text-gray-600 text-black"
                                             >
                                                 {subcategory.name}
