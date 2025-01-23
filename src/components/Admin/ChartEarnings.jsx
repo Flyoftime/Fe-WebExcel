@@ -13,7 +13,6 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
-// Register Chart.js components
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -48,7 +47,7 @@ const options = {
         },
         title: {
             display: true,
-            text: "Dokumen Menuju Penghapusan",
+            text: "Profit",
         },
     },
     scales: {
@@ -65,7 +64,7 @@ const options = {
     },
 };
 
-const Chart = ({ title }) => {
+const ChartEarnings = ({ title }) => {
     return (
         <div className="w-full p-4 bg-white rounded shadow-md">
             <h2 className="mb-4 text-xl font-semibold text-center">{title}</h2>
@@ -74,4 +73,4 @@ const Chart = ({ title }) => {
     );
 };
 
-export default Chart;
+export default ChartEarnings;

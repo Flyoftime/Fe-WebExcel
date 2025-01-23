@@ -57,7 +57,7 @@ const YourProfile = () => {
                 throw new Error("User is not authenticated");
             }
 
-            const response = await fetch("http://localhost:8000/api/user", {
+            const response = await fetch("http://localhost:8000/api/user/{id}/edit", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -70,7 +70,7 @@ const YourProfile = () => {
                 throw new Error("Failed to save user profile");
             }
 
-            setProfile({ ...profile, ...editedProfile }); // Update profile dengan perubahan
+            setProfile({ ...profile, ...editedProfile }); 
             setIsEditing(false);
         } catch (error) {
             setError(error.message);

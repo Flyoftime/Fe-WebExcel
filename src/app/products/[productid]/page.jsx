@@ -3,24 +3,6 @@ import Sidebar from '@/components/Profile/Document/Sidebar';
 import Navbar from '@/components/User/Navbar';
 import React from 'react';
 
-export async function generateMetadata({ params }) {
-    const { productid } = params;
-    try {
-        const response = await fetch(`http://localhost:8000/api/get-document/${productid}`, { cache: 'no-store' });
-        const data = await response.json();
-
-        return {
-            title: data.title || "Document Preview",
-            description: data.description || "Preview the selected document.",
-        };
-    } catch (error) {
-        console.error("Error fetching metadata:", error);
-        return {
-            title: "Document Preview",
-            description: "Error fetching document details.",
-        };
-    }
-}
 
 const Page = async ({ params }) => {
     const { productid } = params;

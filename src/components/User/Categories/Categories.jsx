@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 const Categories = () => {
     const [products, setProducts] = useState([]);
-    const [sortedProducts, setSortedProducts] = useState({}); // Objek untuk produk yang dikelompokkan berdasarkan kategori
+    const [sortedProducts, setSortedProducts] = useState({}); 
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -39,13 +39,19 @@ const Categories = () => {
         console.log("Selected Product ID:", productId);
         window.location = `/products/${productId}`;
     };
-
+    const handleCategorySelect = (category_id) => {
+        console.log("Selected categories ID:", category_id);
+        window.location = `/categories/${category_id}`;
+    };
     return (
         <div className="bg-gray-100 px-4 py-8">
             <h2 className="text-xl font-bold mb-4 text-center">For You</h2>
             {Object.keys(sortedProducts).map((category) => (
                 <div key={category} className="mb-8">
-                    <h3 className="text-lg font-semibold mb-4">{category}</h3>
+                    <h3 className="text-lg font-semibold mb-4"
+                    onClick={() => handleCategorySelect(category)}
+                    style={{ cursor: "pointer" }}
+                    >{category}</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {sortedProducts[category].map((product) => (
                             <div

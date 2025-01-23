@@ -1,7 +1,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem, FormControl, InputLabel, Button } from "@mui/material";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Select,
+    MenuItem,
+    FormControl,
+    InputLabel,
+} from "@mui/material";
 
 const TableUser = () => {
     const [users, setUsers] = useState([]);
@@ -9,28 +21,37 @@ const TableUser = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Fetch users from API
-        axios.get('http://localhost:8000/api/get/user')
+        // Fetch data pengguna
+        axios
+            .get("http://localhost:8000/api/get/user")
             .then((response) => {
-                setUsers(response.data.user); // Assuming response contains 'user' array
+                setUsers(response.data.user || []);
                 setLoading(false);
             })
-            .catch((error) => {
+            .catch(() => {
                 setError("Failed to fetch users");
                 setLoading(false);
             });
     }, []);
 
-    const handleRoleChange = (userId, newRole) => {
-        // Update the user's role in the state and send a request to the backend to update it
-        axios.post('http://localhost:8000/api/get/user', {
-            userId,
-            role: newRole,
-        })
-            .then((response) => {
-                setUsers(prevUsers => prevUsers.map(user => user.id === userId ? { ...user, role: newRole } : user));
+    const handleRoleChange = (Id, newRole) => {
+        // Validasi nilai role sebelum mengirim permintaan
+        if (!["User", "Seller", "Admin"].includes(newRole)) {
+            setError("Invalid role value");
+            return;
+        }
+
+        // Kirim permintaan update role
+        axios
+            .put(`http://localhost:8000/api/user/${Id}/edit`, { role: newRole })
+            .then(() => {
+                setUsers((prevUsers) =>
+                    prevUsers.map((user) =>
+                        user.id === Id ? { ...user, role: newRole } : user
+                    )
+                );
             })
-            .catch((error) => {
+            .catch(() => {
                 setError("Failed to update role");
             });
     };
@@ -70,12 +91,13 @@ const TableUser = () => {
                                 <TableCell>{user.password || "N/A"}</TableCell>
                                 <TableCell>
                                     <span
-                                        className={`px-2 py-1 rounded text-sm ${user.role === "Admin"
+                                        className={`px-2 py-1 rounded text-sm ${
+                                            user.role === "Admin"
                                                 ? "text-blue-600 bg-blue-100"
-                                                : user.role === "Moderator"
-                                                    ? "text-purple-600 bg-purple-100"
-                                                    : "text-gray-600 bg-gray-100"
-                                            }`}
+                                                : user.role === "Seller"
+                                                ? "text-purple-600 bg-purple-100"
+                                                : "text-gray-600 bg-gray-100"
+                                        }`}
                                     >
                                         {user.role || "N/A"}
                                     </span>
@@ -84,11 +106,14 @@ const TableUser = () => {
                                     <FormControl fullWidth>
                                         <InputLabel>Role</InputLabel>
                                         <Select
-                                            value={user.role}
-                                            onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                                            value={user.role || ""}
+                                            onChange={(e) =>
+                                                handleRoleChange(user.id, e.target.value)
+                                            }
                                         >
                                             <MenuItem value="User">User</MenuItem>
                                             <MenuItem value="Seller">Seller</MenuItem>
+                                            <MenuItem value="Admin">Admin</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </TableCell>

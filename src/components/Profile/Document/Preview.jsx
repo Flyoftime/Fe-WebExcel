@@ -15,7 +15,7 @@ const Preview = () => {
             try {
                 setLoading(true);
 
-                // Mengambil data dari sessionStorage jika tersedia
+                
                 const cachedData = sessionStorage.getItem('previewData');
                 const cachedHeaders = sessionStorage.getItem('previewHeaders');
 
@@ -23,9 +23,9 @@ const Preview = () => {
                     setData(JSON.parse(cachedData));
                     setColHeaders(JSON.parse(cachedHeaders));
                 } else {
-                    // Fetch data dari server jika belum ada di cache
+                    
                     const response = await axios.get('http://localhost:8000/api/get-excel-data/3', {
-                        timeout: 5000, // Membatasi waktu request hingga 5 detik
+                        timeout: 5000, 
                     });
                     const fetchedData = response.data?.data || [];
                     const fetchedHeaders = response.data?.headers || [];
