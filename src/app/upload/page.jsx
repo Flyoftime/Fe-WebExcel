@@ -17,7 +17,7 @@ const Uploadpage = async () => {
             <div className="flex flex-col min-h-screen">
                 <Navbar />
                 <main className="flex-grow">
-                    <Upload />
+                    <Upload id={session.user.id}/>
                 </main>
                 <Footer />
 

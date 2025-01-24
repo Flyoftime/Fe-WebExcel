@@ -53,6 +53,9 @@ const RecomendationPage = ({ data }) => {
                                 <p className="text-xs text-gray-500">
                                     Category: {product.category.name}
                                 </p>
+                                <p className="text-xs text-gray-500">
+                                    Created By : {product.user.name}
+                                </p>
                                 <div className="flex justify-between items-center mt-2">
                                     
                                     <button>

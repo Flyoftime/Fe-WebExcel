@@ -10,33 +10,19 @@ const Preview = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const productId = window.location.pathname.split('/').pop();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
 
-                
-                const cachedData = sessionStorage.getItem('previewData');
-                const cachedHeaders = sessionStorage.getItem('previewHeaders');
+                const response = await axios.get(`http://localhost:8000/api/get-excel-data/${productId}`);
+                const fetchedData = response.data?.data || [];
+                const fetchedHeaders = response.data?.headers || [];
 
-                if (cachedData && cachedHeaders) {
-                    setData(JSON.parse(cachedData));
-                    setColHeaders(JSON.parse(cachedHeaders));
-                } else {
-                    
-                    const response = await axios.get('http://localhost:8000/api/get-excel-data/3', {
-                        timeout: 5000, 
-                    });
-                    const fetchedData = response.data?.data || [];
-                    const fetchedHeaders = response.data?.headers || [];
-
-                    setData(fetchedData);
-                    setColHeaders(fetchedHeaders);
-
-                    // Simpan data ke sessionStorage
-                    sessionStorage.setItem('previewData', JSON.stringify(fetchedData));
-                    sessionStorage.setItem('previewHeaders', JSON.stringify(fetchedHeaders));
-                }
+                setData(fetchedData);
+                setColHeaders(fetchedHeaders);
             } catch (err) {
                 setError(`Error fetching data: ${err.message}`);
             } finally {
@@ -44,8 +30,14 @@ const Preview = () => {
             }
         };
 
-        fetchData();
-    }, []);
+        if (productId) {
+            fetchData();
+        } else {
+            setError('Product ID not found');
+        }
+    }, [productId]);
+
+    console.log('Data:', data);
 
     if (loading) {
         return <div className="text-center text-xl">Loading data...</div>;
