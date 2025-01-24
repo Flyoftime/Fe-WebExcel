@@ -1,21 +1,47 @@
-import React from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const Sidebar = () => {
+const Sidebar = ({ data }) => {
+    const [products, setProducts] = useState([]);
+
+    console.log(`Data dari server: ${data}`);
+    const productId = window.location.pathname.split('/').pop();
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch(`http://localhost:8000/api/get/product/${productId}`);
+                const data = await response.json();
+                console.log("Fetched Products:", data);
+                setProducts(data.products || []);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+    const formatDate = (isoDate) => {
+        if (!isoDate) return "Unknown";
+        const date = new Date(isoDate);
+        return date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+    };
+
     return (
         <div className="fixed top-[68px] left-0 h-[calc(100vh-68px)] w-64 bg-white shadow-md p-6">
             <h1 className="text-2xl font-bold mb-2 text-black">
-                (Cover Baru) The Alpha Girl S Guide (Henry Manampiring)
+                {products.name}
             </h1>
             <p className="text-sm text-gray-500 mb-4">
-                Uploaded by <span className="text-blue-500">ihsan</span> on Nov 17, 2023
+            Created on: {formatDate(products.created_at)}
             </p>
-            <div className="inline-block bg-gray-200 text-gray-800 text-xs font-medium px-2 py-1 rounded mb-4">
-                ✨ AI-enhanced
-            </div>
             <p className="text-sm text-gray-700 mb-4">
-                The document repeatedly states Shopee ID 
-                over multiple lines. It appears to be relating the online marketplace Shopee to the company
-                DigitalCastle… <span className="text-blue-500 cursor-pointer">Full description</span>
+                {products.description}
             </p>
             <div className="flex flex-col space-y-4">
                 <div className="text-center">
@@ -50,10 +76,9 @@ const Sidebar = () => {
                     <i className="fas fa-flag text-gray-500"></i>
                     <p className="text-xs text-gray-500">Report</p>
                 </div>
-            </div>    
+            </div>
         </div>
     );
 };
 
 export default Sidebar;
-//ini jek belum di integrasi buat sidebar di preview
