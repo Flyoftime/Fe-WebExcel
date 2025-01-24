@@ -3,47 +3,35 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const CategoriesId = ({ name }) => {
+const CategoriesId = ({subcategory_id}) => {
     const [products, setProducts] = useState([]);
     const [sortedProducts, setSortedProducts] = useState({});
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchProducts = async () => {
-            if (!name) {
-                console.error("Category name is undefined.");
-                setLoading(false);
-                return;
-            }
-
             try {
-                const response = await axios.get(`http://localhost:8000/api/categories/${name}/products`);
-                console.log("API Response:", response.data);
+                const response = await axios.get(`http://localhost:8000/api/get/subcategories/${subcategories_id}`);
                 setProducts(response.data.products || []);
             } catch (error) {
                 console.error("Error fetching products:", error);
-                setProducts([]); 
-            } finally {
-                setLoading(false);
             }
         };
+
         fetchProducts();
-    }, [name]);
+    }, [subcategory_id]);
 
     useEffect(() => {
         if (products.length > 0) {
             const grouped = products.reduce((acc, product) => {
-                const categoriesName = product.categories?.name || "Uncategorized";
-                if (!acc[categoriesName]) {
-                    acc[categoriesName] = [];
+                const categoryName = product.category?.name || "Uncategorized";
+                if (!acc[categoryName]) {
+                    acc[categoryName] = [];
                 }
-                acc[categoriesName].push(product);
+                acc[categoryName].push(product);
                 return acc;
             }, {});
 
             setSortedProducts(grouped);
-        } else {
-            setSortedProducts({});
         }
     }, [products]);
 
@@ -52,21 +40,17 @@ const CategoriesId = ({ name }) => {
         window.location = `/products/${productId}`;
     };
 
-    if (loading) {
-        return <p className="text-center text-gray-500">Loading...</p>;
-    }
-
     return (
         <div className="bg-gray-100 px-4 py-8">
             <h2 className="text-xl font-bold mb-4 text-center">For You</h2>
             {Object.keys(sortedProducts).length === 0 ? (
                 <p className="text-center text-gray-500">No products available for this category.</p>
             ) : (
-                Object.keys(sortedProducts).map((categories) => (
-                    <div key={categories} className="mb-8">
-                        <h3 className="text-lg font-semibold mb-4">{categories}</h3>
+                Object.keys(sortedProducts).map((category) => (
+                    <div key={category} className="mb-8">
+                        <h3 className="text-lg font-semibold mb-4">{category}</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                            {sortedProducts[categories].map((product) => (
+                            {sortedProducts[category].map((product) => (
                                 <div
                                     key={product.id}
                                     className="bg-white shadow-md rounded-lg overflow-hidden"
@@ -81,7 +65,7 @@ const CategoriesId = ({ name }) => {
                                             {product.name}
                                         </p>
                                         <p className="text-xs text-gray-500">
-                                            Category: {product.categories?.name || "Uncategorized"}
+                                            Category: {product.category?.name}
                                         </p>
                                         <div className="flex justify-between items-center mt-2">
                                             <p className="text-sm text-gray-500">

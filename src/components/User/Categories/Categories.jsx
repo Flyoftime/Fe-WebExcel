@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 const Categories = () => {
     const [products, setProducts] = useState([]);
-    const [sortedProducts, setSortedProducts] = useState({}); 
+    const [sortedProducts, setSortedProducts] = useState({});
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -49,8 +49,8 @@ const Categories = () => {
             {Object.keys(sortedProducts).map((category) => (
                 <div key={category} className="mb-8">
                     <h3 className="text-lg font-semibold mb-4"
-                    onClick={() => handleCategorySelect(category)}
-                    style={{ cursor: "pointer" }}
+                        onClick={() => handleCategorySelect(category)}
+                        style={{ cursor: "pointer" }}
                     >{category}</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {sortedProducts[category].map((product) => (
@@ -62,7 +62,11 @@ const Categories = () => {
                             >
                                 <div className="p-4">
                                     <div className="h-32 bg-gray-200 flex items-center justify-center mb-4">
-                                        <span className="text-sm text-gray-500">PDF</span>
+                                        <img
+                                            src="/icons/excel.png"
+                                            alt="Excel Icon"
+                                            className="h-16 w-16 object-contain"
+                                        />
                                     </div>
                                     <p className="text-sm font-medium mb-1 text-gray-500">
                                         {product.name}
