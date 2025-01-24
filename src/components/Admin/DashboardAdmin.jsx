@@ -13,7 +13,7 @@ const DashboardAdmin = () => {
       <div className="flex-6">
         <div className="flex p-5 gap-5">
           <Widget type="user" />
-          <Widget type="order" />
+          <Widget type="product" />
           <Widget type="earning" />
           <Widget type="balance" />
         </div>

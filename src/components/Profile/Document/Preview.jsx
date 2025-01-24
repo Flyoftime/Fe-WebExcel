@@ -9,6 +9,7 @@ const Preview = () => {
     const [colHeaders, setColHeaders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isAuthorized, setAuthorized] = useState(false);
 
     const productId = window.location.pathname.split('/').pop();
 
@@ -23,9 +24,13 @@ const Preview = () => {
 
                 setData(fetchedData);
                 setColHeaders(fetchedHeaders);
+                setAuthorized(true);
             } catch (err) {
                 setError(`Error fetching data: ${err.message}`);
             } finally {
+                if (!isAuthorized) {
+                    setError('You are not authorized to view this document');
+                }
                 setLoading(false);
             }
         };
@@ -44,7 +49,7 @@ const Preview = () => {
     }
 
     if (error) {
-        return <div className="text-center text-red-500 text-xl">{error}</div>;
+        return <div className="text-center text-black text-xl">{error}</div>;
     }
 
     const hotSettings = {

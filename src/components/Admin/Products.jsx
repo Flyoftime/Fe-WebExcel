@@ -60,8 +60,8 @@ const Products = () => {
                             <TableCell>{row.name}</TableCell>
                             <TableCell>{row.price}</TableCell>
                             <TableCell>{row.description}</TableCell>
-                            <TableCell>{row.category_id}</TableCell>
-                            <TableCell>{row.subcategory_id}</TableCell>
+                            <TableCell>{row.category.name}</TableCell>
+                            <TableCell>{row.subcategory.name}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
