@@ -56,11 +56,11 @@ const Preview = () => {
         "http://localhost:8000/api/set/orders",
         {
           product_id: productId,
-          gross_amount: grossAmount, 
+          gross_amount: grossAmount,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -80,6 +80,7 @@ const Preview = () => {
 
     setAuthorized(true);
   };
+
   console.log("Data:", data);
 
   if (loading) {
@@ -91,7 +92,7 @@ const Preview = () => {
   }
 
   const hotSettings = {
-    data: data.length ? data : [["=SUM(A1:A2)"]],
+    data: data.length ? data : [],
     colHeaders: colHeaders.length ? colHeaders : [],
     rowHeaders: true,
     contextMenu: true,
@@ -110,7 +111,7 @@ const Preview = () => {
   return (
     <div className="w-full max-w-screen-lg mx-auto overflow-auto relative">
       {!isAuthorized && (
-        <div className="absolute inset-0 bg-white  flex justify-center items-center z-10">
+        <div className="absolute inset-0 flex justify-center items-center z-10 bg-opacity-50">
           <div className="text-center text-black text-xl">
             You are not authorized to view this document
             <button

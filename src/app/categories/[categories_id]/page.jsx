@@ -4,14 +4,14 @@ import Navbar from '@/components/User/Navbar';
 import React from 'react'
 
 
-const page = async (params) => {0
-
+const page = async (params) => {
+    const { categoriesId } = params
     return (
         <div className="bg-white">
             <div className="flex flex-col min-h-screen">
                 <Navbar />
                 <main className="flex-grow">
-                    <CategoriesId />
+                    <CategoriesId name={categoriesId} />
                 </main>
                 <Footer />
             </div>

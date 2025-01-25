@@ -7,107 +7,93 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 
 const Widget = ({ type }) => {
-    const [userCount, setUserCount] = useState(null);
+    const [userCount, setUserCount] = useState(0);
+    const [productCount, setProductCount] = useState(0);
+    const [earnings, setEarnings] = useState(0);
     const [loading, setLoading] = useState(true);
-    const [products,setProducts] = useState([]);
 
-    let data;
+    let data = {
+        title: "Unknown", // Default title
+        isMoney: false,
+        link: "No data",
+        icon: <AccountBalanceWalletOutlinedIcon className="text-gray-500 bg-gray-200 p-1 rounded" />,
+    }; // Default fallback data
 
-    const amount = 100;
-    const diff = 20;
+    const diff = 20; // Placeholder for the difference percentage
 
     useEffect(() => {
+        // Function to fetch user data
         const fetchUserData = async () => {
             try {
                 const response = await fetch('http://localhost:8000/api/get/user');
                 const data = await response.json();
-                console.log("Fetched data:", data); 
-
-                if (data.user) {
-                    setUserCount(data.user.length);  
-                } else {
-                    console.error("Data users tidak ditemukan!");
-                    setUserCount(0);  
-                }
+                setUserCount(data.user ? data.user.length : 0);
             } catch (error) {
                 console.error("Error fetching user data:", error);
-                setUserCount(0);  
-            } finally {
-                setLoading(false);  
+                setUserCount(0);
             }
         };
 
-    const fetchProducts = async () => {
-        try {
-            const response = await fetch('http://localhost:8000/api/get/product');
-            const data = await response.json();
-            console.log("Fetched Products:", data);
-            setProducts(data.products || []); 
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        }
-    };
+        // Function to fetch product data
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/get/product');
+                const data = await response.json();
+                setProductCount(data.products ? data.products.length : 0);
+            } catch (error) {
+                console.error("Error fetching product data:", error);
+                setProductCount(0);
+            }
+        };
 
-        if (type === "order") {
-            fetchProducts();
-        }
+        // Function to fetch earnings data
+        const fetchEarnings = async () => {
+            try {
+                const response = await fetch("http://localhost:8000/api/get/orders");
+                const data = await response.json();
+                const totalEarnings = data.orders ? data.orders.reduce((acc, order) => {
+                    const price = parseFloat(order.product?.price || 0);
+                    return acc + price;
+                }, 0) : 0;
+                setEarnings(totalEarnings);
+            } catch (error) {
+                console.error("Error fetching earnings data:", error);
+                setEarnings(0);
+            }
+        };
 
         if (type === "user") {
             fetchUserData();
+        } else if (type === "product") {
+            fetchProducts();
+        } else if (type === "earning") {
+            fetchEarnings();
         }
+
+        setLoading(false); 
     }, [type]);
 
-    switch (type) {
-        case "user":
-            data = {
-                title: "Users",
-                isMoney: false,
-                link: "See all users",
-                icon: (
-                    <PersonOutlinedIcon
-                        className="text-crimson bg-red-200 p-1 rounded"
-                    />
-                ),
-            };
-            break;
-        case "order":
-            data = {
-                title: "ORDERS",
-                isMoney: false,
-                link: "View all orders",
-                icon: (
-                    <ShoppingCartOutlinedIcon
-                        className="text-goldenrod bg-yellow-200 p-1 rounded"
-                    />
-                ),
-            };
-            break;
-        case "earning":
-            data = {
-                title: "EARNINGS",
-                isMoney: true,
-                link: "View net earnings",
-                icon: (
-                    <MonetizationOnOutlinedIcon
-                        className="text-green-600 bg-green-200 p-1 rounded"
-                    />
-                ),
-            };
-            break;
-        case "balance":
-            data = {
-                title: "BALANCE",
-                isMoney: true,
-                link: "See details",
-                icon: (
-                    <AccountBalanceWalletOutlinedIcon
-                        className="text-purple-600 bg-purple-200 p-1 rounded"
-                    />
-                ),
-            };
-            break;
-        default:
-            break;
+    if (type === "user") {
+        data = {
+            title: "Users",
+            isMoney: false,
+            link: "See all users",
+            icon: <PersonOutlinedIcon className="text-crimson bg-red-200 p-1 rounded" />,
+        };
+    } else if (type === "product") {
+        data = {
+            title: "Products",
+            isMoney: false,
+            link: "View all products",
+            icon: <ShoppingCartOutlinedIcon className="text-goldenrod bg-yellow-200 p-1 rounded" />,
+        };
+    } else if (type === "earning") {
+        data = {
+            title: "Earnings",
+            isMoney: true,
+            link: "View earnings",
+            icon: <MonetizationOnOutlinedIcon className="text-green-600 bg-green-200 p-1 rounded" />,
+        };
     }
 
     return (
@@ -115,16 +101,9 @@ const Widget = ({ type }) => {
             <div className="flex flex-col justify-between">
                 <span className="text-gray-500 font-bold text-sm">{data.title}</span>
                 <span className="text-xl text-black">
-                    {userCount && type === "user" ? userCount : products.length && type === "order" ? products.length : products}
+                    {type === "user" ? userCount : type === "product" ? productCount : earnings}
                 </span>
                 <span className="text-xs underline text-gray-500">{data.link}</span>
-            </div>
-            <div className="flex flex-col justify-between items-end">
-                <div className={`flex items-center text-sm ${diff > 0 ? "text-green-600" : "text-red-600"}`}>
-                    <KeyboardArrowUpIcon />
-                    {diff} %
-                </div>
-                {data.icon}
             </div>
         </div>
     );

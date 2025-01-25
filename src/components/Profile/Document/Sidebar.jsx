@@ -32,6 +32,28 @@ const Sidebar = ({ data }) => {
         });
     };
 
+
+    const handleDownload = async () => {
+        try {
+        const response = await axios.get(
+         `http://localhost:8000/api/get/product/${productId}/download-pdf`,
+         {
+            method: 'GET',
+            responseType: 'blob',
+        } 
+        );
+
+        // Create a Blob from the response data and trigger the download
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `product_${productId}.pdf`; // Specify the file name
+        link.click(); // Trigger the download
+    } catch (error) {
+        console.error("Error downloading the PDF:", error);
+    }
+    };
+
     return (
         <div className="fixed top-[68px] left-0 h-[calc(100vh-68px)] w-64 bg-white shadow-md p-6">
             <h1 className="text-2xl font-bold mb-2 text-black">
@@ -45,10 +67,12 @@ const Sidebar = ({ data }) => {
             </p>
             <div className="flex flex-col space-y-4">
                 <div className="text-center">
-                    <i className="fas fa-download text-gray-500"></i>
-                    <p className="text-xs text-gray-500">Download</p>
+                <i className="fas fa-download text-gray-500"></i>
+                    <p className="text-xs text-gray-500 cursor-pointer" onClick={handleDownload}>
+                        Download PDF
+                    </p>
                 </div>
-                <div className="text-center">
+                {/* <div className="text-center">
                     <i className="fas fa-bookmark text-gray-500"></i>
                     <p className="text-xs text-gray-500">Save</p>
                 </div>
@@ -75,7 +99,7 @@ const Sidebar = ({ data }) => {
                 <div className="text-center">
                     <i className="fas fa-flag text-gray-500"></i>
                     <p className="text-xs text-gray-500">Report</p>
-                </div>
+                </div> */}
             </div>
         </div>
     );

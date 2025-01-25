@@ -61,10 +61,7 @@ const Sidebar = () => {
                                 <span className="text-sm font-semibold text-gray-500 ml-2">Stats</span>
                             </li>
                         </Link>
-                        <li className="flex items-center p-1 cursor-pointer hover:bg-purple-100">
-                            <NotificationsNoneIcon className="text-lg text-purple-600" />
-                            <span className="text-sm font-semibold text-gray-500 ml-2">Notifications</span>
-                        </li>
+                       
                         <p className="text-[10px] font-bold text-gray-500 mt-4 mb-2">SERVICE</p>
                         <Link href="/admin/settings">
                             <li className="flex items-center p-1 cursor-pointer hover:bg-purple-100">
@@ -73,10 +70,7 @@ const Sidebar = () => {
                             </li>
                         </Link>
                         <p className="text-[10px] font-bold text-gray-500 mt-4 mb-2">USER</p>
-                        <li className="flex items-center p-1 cursor-pointer hover:bg-purple-100">
-                            <AccountCircleOutlinedIcon className="text-lg text-purple-600" />
-                            <span className="text-sm font-semibold text-gray-500 ml-2">Profile</span>
-                        </li>
+                       
                         {/* Logout Button */}
                         <li
                             onClick={handleLogout}

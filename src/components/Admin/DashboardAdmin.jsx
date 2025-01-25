@@ -15,7 +15,6 @@ const DashboardAdmin = () => {
           <Widget type="user" />
           <Widget type="product" />
           <Widget type="earning" />
-          <Widget type="balance" />
         </div>
         <div className="flex p-1 gap-5">
           <Featured />
