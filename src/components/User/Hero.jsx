@@ -31,7 +31,7 @@ const Categories = () => {
     }
 
     return (
-        <div className="py-16 bg-gray-100">
+        <div className="py-16 bg-white">
             <div className="container">
                 <h2 className="text-center text-2xl sm:text-3xl font-bold mb-8">
                     Browse popular categories
@@ -42,7 +42,6 @@ const Categories = () => {
                             key={category.id}
                             className="flex flex-col items-center gap-2 p-4 bg-white  rounded-lg shadow-md hover:shadow-lg transition duration-200"
                         >
-                            {/* Replace image with Excel icon */}
                             <div className="w-24 h-24 flex justify-center items-center bg-green-100 rounded-full">
                                 <img
                                     src="/icons/excel.png" 

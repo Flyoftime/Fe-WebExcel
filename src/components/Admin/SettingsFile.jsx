@@ -5,9 +5,9 @@ import axios from "axios";
 const SettingsFile = () => {
     const [minPrice, setMinPrice] = useState(0);
     const [daysLimit, setDaysLimit] = useState(0);
-    const [categoryName, setCategoryName] = useState(""); // For adding categories
-    const [subcategoryName, setSubcategoryName] = useState(""); // For adding subcategories
-    const [categoryId, setCategoryId] = useState(""); // For adding subcategories
+    const [categoryName, setCategoryName] = useState(""); 
+    const [subcategoryName, setSubcategoryName] = useState("");
+    const [categoryId, setCategoryId] = useState(""); 
 
     const handleSave = () => {
         if (minPrice < 0 || daysLimit < 0) {
@@ -98,7 +98,6 @@ const SettingsFile = () => {
                 </button>
             </div>
 
-            {/* Settings for Days Limit */}
             <div className="relative card w-full bg-[#ffff] drop-shadow-xl p-6">
                 <h1 className="text-xl font-bold font-montserrat text-black mb-4">
                     Settings Penghapusan
@@ -122,8 +121,6 @@ const SettingsFile = () => {
                     Simpan Pengaturan
                 </button>
             </div>
-
-            {/* Add Categories */}
             <div className="relative card w-full bg-[#ffff] drop-shadow-xl p-6">
                 <h1 className="text-xl font-bold font-montserrat text-black mb-4">
                     Add Categories
@@ -147,8 +144,6 @@ const SettingsFile = () => {
                     Simpan Kategori
                 </button>
             </div>
-
-            {/* Add Subcategories */}
             <div className="relative card w-full bg-[#ffff] drop-shadow-xl p-6">
                 <h1 className="text-xl font-bold font-montserrat text-black mb-4">
                     Add Subcategories

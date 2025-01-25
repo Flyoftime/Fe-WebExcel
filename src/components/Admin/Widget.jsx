@@ -42,7 +42,7 @@ const Widget = ({ type }) => {
             const response = await fetch('http://localhost:8000/api/get/product');
             const data = await response.json();
             console.log("Fetched Products:", data);
-            setProducts(data.products || []); // Pastikan data berupa array
+            setProducts(data.products || []); 
         } catch (error) {
             console.error('Error fetching products:', error);
         }

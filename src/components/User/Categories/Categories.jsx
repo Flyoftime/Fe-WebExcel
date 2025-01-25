@@ -44,7 +44,7 @@ const Categories = () => {
         window.location = `/categories/${category_id}`;
     };
     return (
-        <div className="bg-gray-100 px-4 py-8">
+        <div className="bg-white px-4 py-8">
             <h2 className="text-xl font-bold mb-4 text-center">For You</h2>
             {Object.keys(sortedProducts).map((category) => (
                 <div key={category} className="mb-8">

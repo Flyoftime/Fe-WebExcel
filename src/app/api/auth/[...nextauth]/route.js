@@ -47,6 +47,7 @@ export const authOptions = {
             session.user.image = token.image || session.user.image;
             return session;
         },
+        
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {

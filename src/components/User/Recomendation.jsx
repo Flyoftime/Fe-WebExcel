@@ -28,7 +28,7 @@ const RecomendationPage = ({ data }) => {
     };
 
     return (
-        <div className="bg-gray-100">
+        <div className="bg-white">
             <h2 className="text-xl font-bold mb-4">For You</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {Array.isArray(products) &&
@@ -40,7 +40,7 @@ const RecomendationPage = ({ data }) => {
                             style={{ cursor: "pointer" }}
                         >
                             <div className="p-4">
-                                <div className="h-32 bg-gray-200 flex items-center justify-center mb-4">
+                                <div className="h-32  flex items-center justify-center mb-4">
                                     <img
                                         src="/icons/excel.png"
                                         alt="Excel Icon"

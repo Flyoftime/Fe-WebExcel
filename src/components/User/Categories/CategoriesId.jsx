@@ -57,7 +57,7 @@ const CategoriesId = ({ name }) => {
     }
 
     return (
-        <div className="bg-gray-100 px-4 py-8">
+        <div className="bg-white px-4 py-8">
             <h2 className="text-xl font-bold mb-4 text-center">For You</h2>
             {Object.keys(sortedProducts).length === 0 ? (
                 <p className="text-center text-gray-500">No products available for this category.</p>

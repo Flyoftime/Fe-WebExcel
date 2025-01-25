@@ -1,6 +1,4 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-// import { CircularProgressbar } from "react-circular-progressbar";
-// import "react-circular-progressbar/dist/styles.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 
@@ -13,7 +11,6 @@ const Featured = () => {
             </div>
             <div className="flex flex-col items-center justify-center gap-4 p-5">
                 <div className="w-24 h-24">
-                    {/* <CircularProgressbar value={70} text={"70%"} strokeWidth={5} /> */}
                     <div className="radial-progress" style={{ "--value": 70 }} role="progressbar">
                         70%
                     </div>

@@ -21,7 +21,6 @@ const TableUser = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Fetch data pengguna
         axios
             .get("http://localhost:8000/api/get/user")
             .then((response) => {
@@ -35,13 +34,11 @@ const TableUser = () => {
     }, []);
 
     const handleRoleChange = (Id, newRole) => {
-        // Validasi nilai role sebelum mengirim permintaan
         if (!["User", "Seller", "Admin"].includes(newRole)) {
             setError("Invalid role value");
             return;
         }
 
-        // Kirim permintaan update role
         axios
             .put(`http://localhost:8000/api/user/${Id}/edit`, { role: newRole })
             .then(() => {

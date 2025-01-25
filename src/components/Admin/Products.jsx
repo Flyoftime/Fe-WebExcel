@@ -42,7 +42,7 @@ const Products = () => {
         <TableContainer
             component={Paper}
             className="shadow-md mt-10"
-            style={{ maxHeight: "400px", overflowY: "auto" }} // Scroll if data exceeds the height
+            style={{ maxHeight: "400px", overflowY: "auto" }} 
         >
             <Table sx={{ minWidth: 650 }} stickyHeader aria-label="sticky table">
                 <TableHead>

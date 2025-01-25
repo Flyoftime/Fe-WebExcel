@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const CategoriesId = ({subcategory_id}) => {
+const SubcategoriesId = ({subcategory_id}) => {
     const [products, setProducts] = useState([]);
     const [sortedProducts, setSortedProducts] = useState({});
 
@@ -86,4 +86,4 @@ const CategoriesId = ({subcategory_id}) => {
     );
 };
 
-export default CategoriesId;
+export default SubcategoriesId;

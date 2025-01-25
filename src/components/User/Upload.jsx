@@ -98,29 +98,29 @@ const Upload = () => {
     }
   };
 
-  // Handle drag over event
+  
   const handleDragOver = (e) => {
     e.preventDefault();
     setDragging(true);
   };
 
-  // Handle drag leave event
+  
   const handleDragLeave = () => {
     setDragging(false);
   };
 
-  // Handle drop event
+  
   const handleDrop = (e) => {
     e.preventDefault();
     setDragging(false);
     const droppedFile = e.dataTransfer.files[0];
     setFile(droppedFile);
-    setUploadStatus(""); // Clear any previous status
+    setUploadStatus(""); 
   };
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
-    setUploadStatus(""); // Clear any previous status
+    setUploadStatus("");
   };
 
   return (
@@ -136,7 +136,7 @@ const Upload = () => {
           className="border-2 border-dashed border-gray-300 rounded-lg p-10 mt-6 bg-gray-50"
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
-          onDrop={handleDrop} // Attach handleDrop here
+          onDrop={handleDrop} 
         >
           <input
             type="file"

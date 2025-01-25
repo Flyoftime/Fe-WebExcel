@@ -1,4 +1,4 @@
-import { FiMapPin, FiPhone, FiMail } from 'react-icons/fi'; // Importing icons from react-icons
+import { FiMapPin, FiPhone, FiMail } from 'react-icons/fi'; 
 
 const Footer = () => {
     return (

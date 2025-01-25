@@ -9,9 +9,9 @@ const ProductsPage = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [scale, setScale] = useState(1); // Untuk zoom tabel
+    const [scale, setScale] = useState(1); 
 
-    // Ambil data produk dari API Laravel
+    
     const fetchProducts = async () => {
         try {
             const response = await fetch("http://localhost:8000/api/get/product/${id}"); 
@@ -24,7 +24,7 @@ const ProductsPage = () => {
         }
     };
 
-    // Fungsi untuk export ke file Excel
+    
     const exportToExcel = () => {
         const worksheet = XLSX.utils.json_to_sheet(products);
         const workbook = XLSX.utils.book_new();
@@ -36,7 +36,7 @@ const ProductsPage = () => {
         fetchProducts();
     }, []);
 
-    // Setup untuk tabel interaktif dengan React Table
+    
     const {
         getTableProps,
         getTableBodyProps,
@@ -47,19 +47,19 @@ const ProductsPage = () => {
         columns: [
             {
                 Header: "ID",
-                accessor: "id", // kolom ID
+                accessor: "id", 
             },
             {
                 Header: "Nama",
-                accessor: "name", // kolom Nama
+                accessor: "name", 
             },
             {
                 Header: "Harga",
-                accessor: "price", // kolom Harga
+                accessor: "price", 
             },
             {
                 Header: "Deskripsi",
-                accessor: "description", // kolom Deskripsi
+                accessor: "description", 
             },
         ],
         data: products,
