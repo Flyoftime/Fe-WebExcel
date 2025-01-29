@@ -6,6 +6,7 @@ export default function Register() {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
+        phoneNumber: "",
         password: "",
     });
     const [error, setError] = useState(null);
@@ -61,6 +62,17 @@ export default function Register() {
                             name="email"
                             className="w-full border border-base-300 p-2 rounded bg-white text-black"
                             value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-base-content text-black">Phone Number</label>
+                        <input
+                            type="number"
+                            name="phone"
+                            className="w-full border border-base-300 p-2 rounded bg-white text-black"
+                            value={formData.phone}
                             onChange={handleChange}
                             required
                         />
