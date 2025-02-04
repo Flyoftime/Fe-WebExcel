@@ -10,15 +10,15 @@ const Footer = () => {
                         <h2 className="text-xl font-semibold font-Montserrat">Contact Us</h2>
                         <div className="flex items-center space-x-2">
                             <FiMapPin className="text-gray-400" />
-                            <p className="text-sm">Bandung, Jawa Barat</p>
+                            <p className="text-sm">Indonesia</p>
                         </div>
                         <div className="flex items-center space-x-2">
                             <FiPhone className="text-gray-400" />
-                            <p className="text-sm">+62 8810 2357 9090</p>
+                            <p className="text-sm">+62 888-888-888</p>
                         </div>
                         <div className="flex items-center space-x-2">
                             <FiMail className="text-gray-400" />
-                            <p className="text-sm">mirsabanwar@gmail.com</p>
+                            <p className="text-sm">test@gmail.com</p>
                         </div>
                     </div>
 

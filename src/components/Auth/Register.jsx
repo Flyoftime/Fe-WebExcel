@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; 
 
 export default function Register() {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
-        phoneNumber: "",
+        phone: "",
         password: "",
     });
     const [error, setError] = useState(null);
@@ -24,7 +24,7 @@ export default function Register() {
             });
             const data = await response.json();
             if (response.ok) {
-                router.push("/login"); 
+                router.push("/register/otp"); 
             } else {
                 setError(data.message); 
             }

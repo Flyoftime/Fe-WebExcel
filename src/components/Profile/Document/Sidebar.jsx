@@ -1,28 +1,28 @@
 'use client';
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
-const Sidebar = ({ data }) => {
-    const [products, setProducts] = useState([]);
-    const productId = window.location.pathname.split('/').pop(); // Ambil ID dari URL
+const Sidebar = () => {
+    const [product, setProduct] = useState(null);
+    const productId = window.location.pathname.split('/').pop(); 
 
-    console.log(`Data dari server: ${data}`);
-
+    // Fetch Product Data
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchProduct = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/api/get/product/${productId}`);
-                const data = await response.json();
-                console.log("Fetched Products:", data);
-                setProducts(data.products || []);
+                const response = await axios.get(`http://localhost:8000/api/get/product/${productId}`);
+                console.log("Fetched Product:", response.data);
+                setProduct(response.data.products || {});
             } catch (error) {
-                console.error("Error fetching products:", error);
+                console.error("Error fetching product data:", error);
             }
         };
 
-        fetchProducts();
+        fetchProduct();
     }, [productId]);
 
     const formatDate = (isoDate) => {
@@ -35,53 +35,36 @@ const Sidebar = ({ data }) => {
         });
     };
 
+
     const handleDownloadExcelAsPDF = async () => {
         try {
-            // Menggunakan productId, bukan id
             const response = await axios.get(
-                `http://localhost:8000/api/get/productExcel/${productId}`,
-                { responseType: 'arraybuffer' } // Unduh file dalam bentuk array buffer
+                `http://localhost:8000/api/get/product/${productId}/download-pdf`,
+                { responseType: 'arraybuffer' } 
             );
 
-            // B file Excel menggunakan SheetJSaca
-            const workbook = XLSX.read(response.data, { type: 'array' });
-            const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-            const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
-            const doc = new jsPDF();
-            const pageWidth = doc.internal.pageSize.getWidth();
-            const tableColumn = Object.keys(jsonData[0]); // Header tabel dari Excel
-            const tableRows = jsonData.map(row => tableColumn.map(col => row[col]));
-
-            // Tambahkan judul di PDF
-            doc.setFontSize(16);
-            doc.text(`Product Data - ${products.name}`, pageWidth / 2, 10, { align: 'center' });
-
-            // Tambahkan tabel ke PDF
-            doc.autoTable({
-                head: [tableColumn],
-                body: tableRows,
-                startY: 20,
-                margin: { top: 10, left: 10, right: 10 },
-            });
-
-            // Unduh file PDF
-            doc.save(`product_${productId}.pdf`);
+            const blob = new Blob([response.data], { type: 'application/pdf' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `product_${productId}.pdf`;
+            link.click();
         } catch (error) {
             console.error("Error downloading and converting Excel to PDF:", error);
+            alert("Failed to download and convert Excel to PDF. Please try again.");
         }
     };
+
 
     return (
         <div className="fixed top-[68px] left-0 h-[calc(100vh-68px)] w-64 bg-white shadow-md p-6">
             <h1 className="text-2xl font-bold mb-2 text-black">
-                {products.name}
+                {product?.name || "Loading..."}
             </h1>
             <p className="text-sm text-gray-500 mb-4">
-                Created on: {formatDate(products.created_at)}
+                Created on: {formatDate(product?.created_at)}
             </p>
             <p className="text-sm text-gray-700 mb-4">
-                {products.description}
+                {product?.description || "No description available."}
             </p>
             <div className="flex flex-col space-y-4">
                 <div className="text-center">
